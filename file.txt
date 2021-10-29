@@ -1,0 +1,11 @@
+class ro.ase.csie.ebuss.models.Cloathing
+camasa
+Price: 0.2
+Product Name: camasa
+Available Quantity: 2
+Size: S
+class ro.ase.csie.ebuss.models.Vegetable
+tomato
+Price: 0.1
+Product Name: tomato
+Available quantity: 98
