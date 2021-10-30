@@ -14,6 +14,7 @@ import ro.ase.csie.ebuss.exceptions.InvalidPriceException;
 import ro.ase.csie.ebuss.exceptions.InvalidQuantityException;
 import ro.ase.csie.ebuss.exceptions.InvalidShopNameException;
 import ro.ase.csie.ebuss.exceptions.InvalidShopProductsException;
+import ro.ase.csie.ebuss.exceptions.ProductNotFoundException;
 import ro.ase.csie.ebuss.interfaces.ShopInterface;
 import ro.ase.csie.ebuss.models.AbstractProduct;
 import ro.ase.csie.ebuss.models.Cloathing;
@@ -183,26 +184,74 @@ public class Shop implements ShopInterface {
 			add();
 		}
 	}
-	
-	public void update() {
-		
+
+	public void update() throws ProductNotFoundException, InvalidNameException, InvalidPriceException,
+			InvalidAvailableQuantityException, InvalidQuantityException, InterruptedException {
+		Scanner scanner = new Scanner(System.in);
+		String productKey;
+		double productPrice;
+		String productName;
+		int defaultQuantity;
+		AbstractProduct product;
+		System.out.println("Enter product key");
+		productKey = scanner.nextLine();
+		product = products.get(productKey);
+		if (product == null) {
+			throw new ProductNotFoundException("Product Not Found");
+		}
+		String classType = product.getClass().toString();
+		switch (classType) {
+		case "class ro.ase.csie.ebuss.models.Cloathing":
+
+			System.out.println("Enter new product price (old: " + product.getPrice() + ")");
+			productPrice = scanner.nextDouble();
+			scanner.nextLine();
+			System.out.println("Enter product name (old: " + product.getProductName() + ")");
+			productName = scanner.nextLine();
+			System.out.println("Enter starting quantity (old: " + product.getAvailableQuantity() + ")");
+			defaultQuantity = scanner.nextInt();
+			scanner.nextLine();
+			System.out.println("Enter size");
+			String size = scanner.nextLine().toUpperCase();
+			product = new Cloathing(productPrice, productName, defaultQuantity, Size.valueOf(size));
+			updateProduct(productKey, product);
+			break;
+		case "class ro.ase.csie.ebuss.models.Vegetable":
+
+			System.out.println("Enter new product price (old: " + product.getPrice() + ")");
+			productPrice = scanner.nextDouble();
+			scanner.nextLine();
+			System.out.println("Enter product name (old: " + product.getProductName() + ")");
+			productName = scanner.nextLine();
+			System.out.println("Enter starting quantity (old: " + product.getAvailableQuantity() + ")");
+			defaultQuantity = scanner.nextInt();
+			product = new Vegetable(productPrice, productName, defaultQuantity);
+			updateProduct(productKey, product);
+			break;
+		default:
+			System.out.println("Invalid product type . . .");
+			Thread.sleep(3000);
+			break;
+
+		}
+
 	}
-	
-	public void delete(){
+
+	public void delete() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter product key to delete it");
 		String productKey = scanner.nextLine();
 		deleteProduct(productKey);
-		
+
 	}
-	
+
 	public void addStock() throws InvalidQuantityException {
 		System.out.println("Enter product key you want to add stock");
 		Scanner scanner = new Scanner(System.in);
 		String productKey = scanner.nextLine();
 		int additionalQuantity = scanner.nextInt();
 		refreshStock(productKey, additionalQuantity);
-		
+
 	}
 
 }

@@ -53,6 +53,7 @@ public class Main {
 					break;
 				case 3:
 					// update existing product
+					shop.update();
 					System.out.println("Select another option:");
 					break;
 				case 4:

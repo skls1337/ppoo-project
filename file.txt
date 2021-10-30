@@ -11,6 +11,6 @@ camasa
 S
 class ro.ase.csie.ebuss.models.Vegetable
 tomato
-0.1
-tomato
-158
+20.0
+tomattt
+20
