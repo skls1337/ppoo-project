@@ -25,6 +25,11 @@ public class Cloathing extends AbstractProduct {
 
 	@Override
 	public String toString() {
+		return price + "\n" + productName + "\n" + availableQuantity + "\n" + size;
+	}
+	
+	@Override
+	public String print() {
 		return "Price: " + price + "\n" + "Product Name: " + productName + "\n" + "Available Quantity: "
 				+ availableQuantity + "\n" + "Size: " + size;
 	}

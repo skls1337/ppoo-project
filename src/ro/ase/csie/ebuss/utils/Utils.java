@@ -22,24 +22,35 @@ import ro.ase.csie.ebuss.shop.Shop;
 
 public class Utils {
 
-	public static void saveData(Shop shop,String fileName) throws IOException {
+	public static void saveData(Shop shop, String fileName) throws IOException {
 		FileWriter file = new FileWriter(fileName);
 		Map<String, AbstractProduct> products = shop.getProducts();
-		for(Entry<String, AbstractProduct> product : products.entrySet()) {
-			file.write(product.getValue().getClass().toString()+"\n");
-			file.write(product.getKey()+"\n");
-			file.write(product.getValue().toString()+"\n");
+		for (Entry<String, AbstractProduct> product : products.entrySet()) {
+			file.write(product.getValue().getClass().toString() + "\n");
+			file.write(product.getKey() + "\n");
+			file.write(product.getValue().toString() + "\n");
 		}
 		file.close();
-		
+
 	}
-	
-	public static Map<String,AbstractProduct> loadData(String fileName) throws FileNotFoundException, InvalidNameException, InvalidPriceException, InvalidAvailableQuantityException, InvalidQuantityException {
+
+	public static void printOptions() {
+		System.out.println("Please select the following options:");
+		System.out.println("1. View products");
+		System.out.println("2. Add new product");
+		System.out.println("3. Update product");
+		System.out.println("4. Delete product");
+		System.out.println("5. Add stock");
+		System.out.println("6. Exit application");
+	}
+
+	public static Map<String, AbstractProduct> loadData(String fileName) throws FileNotFoundException,
+			InvalidNameException, InvalidPriceException, InvalidAvailableQuantityException, InvalidQuantityException {
 		File file = new File(fileName);
-		Scanner scanner=  new Scanner(file);
-		
-		Map<String,AbstractProduct> products= new HashMap<>();
-		while(scanner.hasNextLine()) {
+		Scanner scanner = new Scanner(file);
+
+		Map<String, AbstractProduct> products = new HashMap<>();
+		while (scanner.hasNextLine()) {
 			String classType = scanner.nextLine();
 			String key = scanner.nextLine();
 			double price;
@@ -47,33 +58,33 @@ public class Utils {
 			int availableQuantity;
 			Size size;
 			AbstractProduct product;
-			switch(classType){
-			
-				case "class ro.ase.csie.ebuss.models.Cloathing":
-					
+			switch (classType) {
+
+			case "class ro.ase.csie.ebuss.models.Cloathing":
+
 				price = Double.parseDouble(scanner.nextLine());
 				productName = scanner.nextLine();
 				availableQuantity = Integer.parseInt(scanner.nextLine());
 				size = Size.valueOf(scanner.nextLine());
-				
+
 				product = new Cloathing(price, productName, availableQuantity, size);
 				products.put(key, product);
-			
+
 				break;
-				
-				case "class ro.ase.csie.ebuss.models.Vegetable":
-					
+
+			case "class ro.ase.csie.ebuss.models.Vegetable":
+
 				price = Double.parseDouble(scanner.nextLine());
 				productName = scanner.nextLine();
 				availableQuantity = Integer.parseInt(scanner.nextLine());
-				
+
 				product = new Vegetable(price, productName, availableQuantity);
 				products.put(key, product);
 				break;
-				
-				default:
+
+			default:
 				break;
-					
+
 			}
 		}
 		scanner.close();

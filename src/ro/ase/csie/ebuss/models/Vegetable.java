@@ -1,4 +1,5 @@
 package ro.ase.csie.ebuss.models;
+
 import javax.naming.InvalidNameException;
 
 import ro.ase.csie.ebuss.exceptions.InvalidAvailableQuantityException;
@@ -14,7 +15,14 @@ public class Vegetable extends AbstractProduct {
 
 	@Override
 	public String toString() {
-		return "Price: "+price + "\n" + "Product Name: "+productName + "\n" + "Available quantity: "+ availableQuantity;
+		return price + "\n" + productName + "\n" + availableQuantity;
+	}
+
+	@Override
+	public String print() {
+		return "Price: " + price + "\n" + "Product Name: " + productName + "\n" + "Available quantity: "
+				+ availableQuantity;
+
 	}
 
 }

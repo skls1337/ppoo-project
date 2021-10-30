@@ -65,7 +65,7 @@ public class Shop implements ShopInterface {
 	public void addProduct(String productKey, AbstractProduct product) {
 		if (products.containsKey(productKey)) {
 			throw new UnsupportedOperationException(
-					"Existing Product. The is already an existing product with that key");
+					"Existing Product. There is already an existing product with that key");
 		}
 		products.put(productKey, product);
 
@@ -131,13 +131,14 @@ public class Shop implements ShopInterface {
 		}
 		for (Entry<String, AbstractProduct> entry : products.entrySet()) {
 			System.out.println("Product key: " + entry.getKey());
-			System.out.println("Product: " + entry.getValue().toString());
+			System.out.println("Product: " + entry.getValue().print());
 		}
 
 	}
 
-	public void add(Scanner scanner) throws InterruptedException, InvalidNameException, InvalidPriceException,
+	public void add() throws InterruptedException, InvalidNameException, InvalidPriceException,
 			InvalidQuantityException, InvalidAvailableQuantityException {
+		Scanner scanner = new Scanner(System.in);
 		String productKey;
 		double productPrice;
 		String productName;
@@ -151,7 +152,8 @@ public class Shop implements ShopInterface {
 			System.out.println("Enter product key");
 			productKey = scanner.nextLine();
 			System.out.println("Enter product price");
-			productPrice = scanner.nextInt();
+			productPrice = scanner.nextDouble();
+			scanner.nextLine();
 			System.out.println("Enter product name");
 			productName = scanner.nextLine();
 			System.out.println("Enter starting quantity");
@@ -163,11 +165,14 @@ public class Shop implements ShopInterface {
 			System.out.println("Enter product key");
 			productKey = scanner.nextLine();
 			System.out.println("Enter product price");
-			productPrice = scanner.nextInt();
+			productPrice = scanner.nextDouble();
+			scanner.nextLine();
 			System.out.println("Enter product name");
 			productName = scanner.nextLine();
 			System.out.println("Enter starting quantity");
 			defaultQuantity = scanner.nextInt();
+			scanner.nextLine();
+			System.out.println("Enter size");
 			String size = scanner.nextLine().toUpperCase();
 			product = new Cloathing(productPrice, productName, defaultQuantity, Size.valueOf(size));
 			addProduct(productKey, product);
@@ -175,11 +180,28 @@ public class Shop implements ShopInterface {
 		default:
 			System.out.println("Invalid product type . . .");
 			Thread.sleep(3000);
-			add(scanner);
+			add();
 		}
 	}
 	
-	public void update(Scanner scanner) {
+	public void update() {
+		
+	}
+	
+	public void delete(){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter product key to delete it");
+		String productKey = scanner.nextLine();
+		deleteProduct(productKey);
+		
+	}
+	
+	public void addStock() throws InvalidQuantityException {
+		System.out.println("Enter product key you want to add stock");
+		Scanner scanner = new Scanner(System.in);
+		String productKey = scanner.nextLine();
+		int additionalQuantity = scanner.nextInt();
+		refreshStock(productKey, additionalQuantity);
 		
 	}
 

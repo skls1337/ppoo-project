@@ -73,7 +73,9 @@ public abstract class AbstractProduct {
 			break;
 		}
 	}
-
+	
+	public abstract String print();
+	
 	@Override
 	public String toString() {
 		return "AbstractProduct [price=" + price + ", productName=" + productName + ", availableQuantity="

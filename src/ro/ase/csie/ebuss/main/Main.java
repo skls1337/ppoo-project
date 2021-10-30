@@ -21,59 +21,63 @@ import ro.ase.csie.ebuss.utils.Utils;
 
 public class Main {
 
-	public static void main(String[] args) throws InvalidNameException, InvalidPriceException, InvalidQuantityException,
-			InvalidShopNameException, InvalidShopProductsException, InvalidAvailableQuantityException, IOException, InterruptedException {
+	public static void main(String[] args)
+			throws InvalidNameException, InvalidPriceException, InvalidQuantityException, InvalidShopNameException,
+			InvalidShopProductsException, InvalidAvailableQuantityException, IOException, InterruptedException {
+
 		Map<String, AbstractProduct> products = Utils.loadData("file.txt");
 
 		Shop shop = Shop.createShopInstance("magazin", products);
 
-		boolean intrerupt = true;
-		Scanner scanner = new Scanner(System.in);
-		int option = scanner.nextInt();
+		boolean intrerupt = false;
 
-		switch (option) {
-		case 1:
-			// view product list
-			shop.add(scanner);
-			break;
-		case 2:
-			// add new product
-			break;
-		case 3:
-			// update existing product
-			break;
-		case 4:
-			// delete existing product
-			break;
-		case 5:
-			// add stock to specific product
-			break;
-		case 6:
-			// exit
-			break;
-		default:
-			System.out.println("Invalid option!");
-
-		}
-		scanner.close();
-
+		Utils.printOptions();
 		try {
-			shop.viewProducts();
-			shop.buyProduct("tomato", 2);
-//		while(true) {			
+			Scanner scanner = new Scanner(System.in);
+			while (true) {
+				if (intrerupt) {
+					break;
+				}
+				int option = scanner.nextInt();
 
-			
-
-			shop.deleteProduct("cucumber");
-
-			shop.refreshStock("camasa", 5);
-
-			shop.updateProduct("camasa", new Cloathing(0.2, "camasa", 2, Size.S));
-
-//			if(!intrerupt) {
-//				break;
-//			}
-//		}
+				switch (option) {
+				case 1:
+					// view product list
+					shop.viewProducts();
+					System.out.println("Select another option:");
+					break;
+				case 2:
+					// add new product
+					shop.add();
+					System.out.println("Select another option:");
+					break;
+				case 3:
+					// update existing product
+					System.out.println("Select another option:");
+					break;
+				case 4:
+					// delete existing product
+					shop.delete();
+					System.out.println("Select another option:");
+					break;
+				case 5:
+					// add stock to specific product
+					shop.addStock();
+					System.out.println("Select another option:");
+					break;
+				case 6:
+					// exit
+					System.out.println("Exiting store . . .");
+					intrerupt = true;
+					break;
+				default:
+					System.out.println("Invalid option!");
+					System.out.println("Select another option:");
+					break;
+				}
+				Utils.printOptions();
+			}
+			scanner.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
